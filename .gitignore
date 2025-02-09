@@ -1,3 +1,3 @@
 .vscode
-inventory/host.ini
+inventory/hosts.ini
 vars/network.yml
