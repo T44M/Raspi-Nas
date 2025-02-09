@@ -22,6 +22,17 @@
     name: Asia/Tokyo
 
 # 静的IP設定
+- name: install dhcpcd
+  apt:
+    name: dhcpcd5
+    state: present
+
+- name: dhcpcd service enable
+  service:
+    name: dhcpcd
+    state: started
+    enabled: yes
+
 - name: Ensure dhcpcd.conf exists
   file:
     path: /etc/dhcpcd.conf
@@ -42,5 +53,5 @@
 # DHCPCDサービスのリロード
 - name: Reload dhcpcd service
   service:
-    name: dhcpcd5
-    state: reloaded
+    name: dhcpcd
+    state: restarted

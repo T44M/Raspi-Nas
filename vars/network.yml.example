@@ -1,0 +1,5 @@
+---
+network_interface: "Your Interface"
+static_ip: "Your Static Ip"
+static_router: "Your static static_router"
+static_dns: "Yout static static_dns"
