@@ -1,0 +1,24 @@
+---
+- name: Install WireGuard
+  apt:
+    name: wireguard
+    state: present
+
+- name: Generate keys
+  command: "wg genkey | tee privatekey | wg pubkey > publickey"
+  args:
+    chdir: /etc/wireguard
+    creates: /etc/wireguard/privatekey
+
+- name: Configure WireGuard
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: 0600
+  notify: restart wg-quick@wg0
+
+- name: Enable IP forwarding
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present

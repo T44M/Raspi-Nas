@@ -1,0 +1,46 @@
+---
+# システムアップデート
+- name: Update and upgrade system
+  apt:
+    update_cache: yes
+    upgrade: full
+    cache_valid_time: 3600
+
+# ロケール設定
+- name: Set locale to ja_JP.UTF-8
+  locale_gen:
+    name: ja_JP.UTF-8
+    state: present
+
+- name: Set default locale
+  command: update-locale LANG=ja_JP.UTF-8 LC_ALL=ja_JP.UTF-8
+  changed_when: false
+
+# タイムゾーン設定
+- name: Set timezone
+  community.general.timezone:
+    name: Asia/Tokyo
+
+# 静的IP設定
+- name: Ensure dhcpcd.conf exists
+  file:
+    path: /etc/dhcpcd.conf
+    state: touch
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: Configure static IP
+  blockinfile:
+    path: /etc/dhcpcd.conf
+    block: |
+      interface {{ network_interface }}
+      static ip_address={{ static_ip }}
+      static routers={{ static_router }}
+      static domain_name_servers={{ static_dns }}
+
+# DHCPCDサービスのリロード
+- name: Reload dhcpcd service
+  service:
+    name: dhcpcd5
+    state: reloaded

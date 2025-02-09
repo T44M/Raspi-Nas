@@ -1,0 +1,8 @@
+[Interface]
+Address = 10.10.0.1/24
+ListenPort = 51820
+PrivateKey = {{ wireguard_private_key }}
+
+[Peer]
+PublicKey = {{ wireguard_public_key }}
+AllowedIPs = 10.10.0.2/32

@@ -1,0 +1,8 @@
+---
+- hosts: pi
+  become: true
+  roles:
+    - role: ../roles/omv
+      vars:
+        omv_user: "nasadmin"
+        omv_share_path: "/srv/nasdata"

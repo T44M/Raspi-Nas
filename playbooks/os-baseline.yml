@@ -1,0 +1,8 @@
+---
+- name: Basic Raspberry Pi Setup
+  hosts: pi
+  become: yes
+  vars_files:
+    - ../vars/network.yml
+  roles:
+    - ../roles/os_baseline

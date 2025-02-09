@@ -1,0 +1,16 @@
+---
+- name: Install OMV
+  command: bash -c "wget -O - https://github.com/OpenMediaVault-Plugin-Developers/installScript/raw/master/install | sudo bash"
+  changed_when: false
+
+- name: Create shared folder
+  command: omv-mkdir {{ omv_share_path }}
+  when: not omv_share_stat.stat.exists
+  notify: restart omv services
+
+- name: Set permissions
+  file:
+    path: "{{ omv_share_path }}"
+    owner: "{{ omv_user }}"
+    group: "{{ omv_user }}"
+    mode: "0775"
